@@ -23,13 +23,13 @@ main(){
     read -r -a artifactsUrlArr <<< "$stripedArtifactsurl"
     artifactsFolder=$(echo "${artifactsUrlArr[2]}" | cut -f 1 -d '.')
     echo "Artifacts folder: $artifactsFolder"
-    git clone "https://doronjo:${gitToken}@${stripedArtifactsurl}" 
+#    git clone "https://doronjo:${gitToken}@${stripedArtifactsurl}" 
 
     IFS='/' 
     read -r -a chartsUrlArr <<< "$stripedChartsurl"
     chartsFolder=$(echo "${chartsUrlArr[2]}" | cut -f 1 -d '.')
     echo "Charts folder: $chartsFolder"
-    git clone "https://doronjo:${gitToken}@${stripedChartsurl}" 
+#    git clone "https://doronjo:${gitToken}@${stripedChartsurl}" 
 
 
     cd "$chartsFolder"
