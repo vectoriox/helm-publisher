@@ -1,0 +1,33 @@
+name: "Helm Chart Publisher"
+description: "Host a Helm charts repo and Helm artifacts on GitHub Pages"
+author: "DoronJo"
+branding:
+  color: blue
+  icon: anchor
+inputs:
+  git_token:
+    description: "The git repo token"
+    required: false
+  charts_repo:
+    description: "The chart repo git url"
+    required: false
+  artifacts_repo:
+    description: "The artifacts repo git url"
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - run: |
+        if [[ -n "${{ inputs.git_token }}" ]]; then
+            args+=(--git-token "${{ inputs.git_token }}")
+        fi
+        if [[ -n "${{ inputs.charts_repo }}" ]]; then
+            args+=(--charts-repo "${{ inputs.charts_repo }}")
+        fi
+        if [[ -n "${{ inputs.artifacts_repo }}" ]]; then
+            args+=(--artifacts-repo "${{ inputs.artifacts_repo }}")
+        fi
+
+        "$GITHUB_ACTION_PATH/action.sh" "${args[@]}"
+      shell: bash
