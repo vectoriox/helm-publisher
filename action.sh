@@ -4,7 +4,7 @@ main(){
 
     
      #inputs: 
-    local gitToken=
+    local gitToken=$GH_TOKEN
     local helmChartRepo=
     local helmArtifactsRepo=
 
@@ -23,13 +23,13 @@ main(){
     read -r -a artifactsUrlArr <<< "$stripedArtifactsurl"
     artifactsFolder=$(echo "${artifactsUrlArr[2]}" | cut -f 1 -d '.')
     echo "Artifacts folder: $artifactsFolder"
-#    git clone "https://doronjo:${gitToken}@${stripedArtifactsurl}" 
+    git clone "https://doronjo:${gitToken}@${stripedArtifactsurl}" 
 
     IFS='/' 
     read -r -a chartsUrlArr <<< "$stripedChartsurl"
     chartsFolder=$(echo "${chartsUrlArr[2]}" | cut -f 1 -d '.')
     echo "Charts folder: $chartsFolder"
-#    git clone "https://doronjo:${gitToken}@${stripedChartsurl}" 
+    git clone "https://doronjo:${gitToken}@${stripedChartsurl}" 
 
 
     cd "$chartsFolder"
@@ -116,7 +116,6 @@ Usage: $(basename "$0") <options>
     -h, --help               Display help
     -c, --charts-repo        The chart repo
     -a, --artifacts-repo     The charts artfiactory repo, helm packages repo
-    -g, --git-token          The Github repo user token, should be the same for both repos 
 EOF
 }
 
@@ -148,16 +147,6 @@ parse_command_line() {
                     exit 1
                 fi
                 ;;
-            -g|--git-token)
-                if [[ -n "${2:-}" ]]; then
-                    gitToken="$2"
-                    shift
-                else
-                    echo "ERROR: '-t|--git-token' cannot be empty." >&2
-                    show_help
-                    exit 1
-                fi
-                ;;
             *)
                 break
                 ;;
@@ -174,12 +163,6 @@ parse_command_line() {
 
     if [[ -z "$helmArtifactsRepo" ]]; then
         echo "ERROR: '-a|--artifacts-repo' is required." >&2
-        show_help
-        exit 1
-    fi
-
-    if [[ -z "$gitToken" ]]; then
-        echo "ERROR: '-g|--git-token' is required." >&2
         show_help
         exit 1
     fi
