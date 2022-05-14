@@ -1,4 +1,4 @@
-name: "Helm Chart Publisher"
+name: "Helm Charts Publisher"
 description: "Host a Helm charts repo and Helm artifacts on GitHub Pages"
 author: "DoronJo"
 branding:
