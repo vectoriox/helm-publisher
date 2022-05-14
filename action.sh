@@ -19,6 +19,11 @@ main(){
     stripedChartsurl=$(echo "$helmChartRepo" |sed 's/https\?:\/\///')
     stripedArtifactsurl=$(echo "$helmArtifactsRepo" |sed 's/https\?:\/\///')
 
+    IFS='/' 
+    read -r -a artifactsUrlArr <<< "$stripedArtifactsurl"
+    artifactsFolder=$(echo "${artifactsUrlArr[2]}" | cut -f 1 -d '.')
+    echo "Artifacts folder: $artifactsFolder"
+    git clone "https://${gitToken}:${gitToken}@${stripedArtifactsurl}" 
 
     IFS='/' 
     read -r -a chartsUrlArr <<< "$stripedChartsurl"
@@ -26,11 +31,6 @@ main(){
     echo "Charts folder: $chartsFolder"
     git clone "https://${gitToken}:${gitToken}@${stripedChartsurl}" 
 
-    IFS='/' 
-    read -r -a artifactsUrlArr <<< "$stripedArtifactsurl"
-    artifactsFolder=$(echo "${artifactsUrlArr[2]}" | cut -f 1 -d '.')
-    echo "Artifacts folder: $artifactsFolder"
-    git clone "https://${gitToken}:${gitToken}@${stripedArtifactsurl}" 
 
     cd "$chartsFolder"
     git checkout main
