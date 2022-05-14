@@ -3,7 +3,7 @@
 main(){
 
     
-    #inputs: 
+     #inputs: 
     local gitToken=
     local helmChartRepo=
     local helmArtifactsRepo=
